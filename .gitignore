@@ -76,3 +76,16 @@ db.sqlite3
 /staticfiles
 /media
 .env
+
+# Large files and installers
+*.exe
+*.msi
+*.dmg
+*.pkg
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Specific large files
+DockerDesktopInstaller.exe
