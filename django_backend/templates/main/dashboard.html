@@ -1,0 +1,352 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Dashboard - selfmode.app{% endblock %}
+
+{% block extra_css %}
+<style>
+    .summary-table th:first-child {
+        width: 50%; /* Alanlar sütununu genişlet */
+    }
+    .summary-table td {
+        vertical-align: middle; /* İçeriği dikeyde ortala */
+        text-align: center; /* Puanları yatayda ortala */
+    }
+    .th-test-1 { background-color: rgba(33, 37, 41, 0.1); } /* Siyah */
+    .th-test-2 { background-color: rgba(13, 110, 253, 0.1); } /* Mavi */
+    .th-test-3 { background-color: rgba(25, 135, 84, 0.1); } /* Yeşil */
+    .th-test-4 { background-color: rgba(255, 193, 7, 0.1); } /* Sarı */
+    .th-hedef { background-color: rgba(220, 53, 69, 0.1); } /* Kırmızı */
+    .quick-action-card .card-body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1.5rem;
+    }
+    .quick-action-card .icon-container {
+        height: 64px; /* Tüm ikonlar için sabit yükseklik */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1rem;
+    }
+    .quick-action-card .icon-container img {
+        max-height: 100%;
+        max-width: 150px; /* Genişliği sınırlıyoruz */
+        width: auto;
+    }
+    .quick-action-card .card-title {
+        font-weight: 600;
+    }
+    .quick-action-card .btn {
+        margin-top: auto; /* Butonu her zaman en alta iter */
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Welcome Section -->
+<div class="dashboard-stats">
+    <div class="row align-items-center">
+        <div class="col-md-8">
+            <h2 class="mb-3">Hoş geldin, {{ user.first_name|default:user.username }}! 👋</h2>
+            <p class="mb-0">Bugün kendini nasıl hissediyorsun? Kişisel gelişim yolculuğuna devam edelim.</p>
+        </div>
+        <div class="col-md-4 text-end">
+            <div class="h4 mb-0">{{ user_assessments.count }}</div>
+            <small>Toplam Değerlendirme</small>
+        </div>
+    </div>
+</div>
+
+<!-- Quick Actions -->
+<div class="row mb-4">
+    <div class="col-md-3 d-flex">
+        <div class="card text-center h-100 w-100 quick-action-card">
+            <div class="card-body">
+                <div class="icon-container"><div class="h1 text-primary mb-0">🎯</div></div>
+                <h5 class="card-title">Yaşam Çarkı</h5>
+                <p class="card-text">Hayatının farklı alanlarını analiz et</p>
+                <a href="{% url 'main:life_wheel' %}" class="btn btn-outline-primary">Başla</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 d-flex">
+        <div class="card text-center h-100 w-100 quick-action-card">
+            <div class="card-body">
+                <div class="icon-container"><div class="h1 text-success mb-0">🧠</div></div>
+                <h5 class="card-title">Değerlendirme</h5>
+                <p class="card-text">Yeni bir test yap</p>
+                <a href="{% url 'main:assessments' %}" class="btn btn-outline-success">Başla</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 d-flex">
+        <div class="card text-center h-100 w-100 quick-action-card">
+            <div class="card-body">
+                <div class="icon-container">
+                    <img src="{% static 'images/gemini-logo.png' %}" alt="AI Koç">
+                </div>
+                <h5 class="card-title">AI Koç</h5>
+                <p class="card-text">Kişisel rehberlik al</p>
+                <a href="{% url 'main:ai_coach' %}" class="btn btn-outline-info">Başla</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 d-flex">
+        <div class="card text-center h-100 w-100 quick-action-card">
+            <div class="card-body">
+                <div class="icon-container"><div class="h1 text-warning mb-0">📊</div></div>
+                <h5 class="card-title">İlerleme</h5>
+                <p class="card-text">Gelişimini takip et</p>
+                <a href="{% url 'main:profile' %}" class="btn btn-outline-warning">Görüntüle</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Recent Activity -->
+<div class="row">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📈 Son Değerlendirmeler</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_assessments %}
+                    {% for assessment in recent_assessments %}
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <strong>Test #{{ assessment.test_number }}</strong>
+                            <br>
+                            <small class="text-muted">{{ assessment.created_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                        <div class="text-end">
+                            <div class="badge bg-primary">{{ assessment.average_score }}/10</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Henüz değerlendirme yapmadınız.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">🤖 Son AI Raporları</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_reports %}
+                    {% for report in recent_reports %}
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <strong>{{ report.get_report_type_display }}</strong>
+                            <br>
+                            <small class="text-muted">{{ report.created_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                        <div class="text-end">
+                            <div class="badge bg-info">Test #{{ report.test_number }}</div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Henüz AI raporu oluşturulmadı.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Motivation Quote -->
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <blockquote class="blockquote mb-0">
+                    <p class="mb-2">"Kişisel gelişim, hayat boyu süren bir yolculuktur. Her gün küçük bir adım atarak büyük değişimler yaratabilirsin."</p>
+                </blockquote>
+            </div>
+        </div>
+    </div>
+</div>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>📈 Dashboard</h2>
+            <a href="{% url 'main:life_wheel' %}" class="btn btn-primary">Yeni Değerlendirme Başlat</a>
+        </div>
+
+        <!-- Karşılaştırma Grafiği -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📊 Gelişim Grafiği (Son 3 Değerlendirme)</h5>
+            </div>
+            <div class="card-body">
+                <div class="life-wheel-chart" style="height: 500px; width: 100%; margin: auto;">
+                    <canvas id="comparisonChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        {% if summary_data %}
+        <!-- Gelişim Özet Tablosu -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📝 Gelişim Özeti</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped text-center summary-table">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Yaşam Alanları</th>
+                                <th class="th-test-1">1. Test</th>
+                                <th class="th-test-2">2. Test</th>
+                                <th class="th-test-3">3. Test</th>
+                                <th class="th-test-4">4. Test</th>
+                                <th class="th-hedef">Hedef</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for row in summary_data %}
+                            <tr>
+                                <td class="text-start">
+                                    <strong>{{ row.area }}</strong>
+                                    <p class="text-muted small mb-0">{{ row.description }}</p>
+                                </td>
+                                <td>{{ row.test_1_score|default:"-" }}</td>
+                                <td>{{ row.test_2_score|default:"-" }}</td>
+                                <td>{{ row.test_3_score|default:"-" }}</td>
+                                <td>{{ row.test_4_score|default:"-" }}</td>
+                                <td>{{ row.target_score|default:"-" }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div class="row">
+            <div class="col-lg-8">
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Chart.js için etiketleri dışarıya simetrik olarak yazan eklenti
+const symmetricalLabelsPlugin = {
+    id: 'symmetricalLabelsPlugin',
+    afterDraw: (chart, args, options) => {
+        const { ctx, chartArea: { left, right, top, bottom } } = chart;
+        const labels = chart.data.labels;
+        if (!labels || labels.length === 0) return;
+
+        const centerX = (left + right) / 2;
+        const centerY = (top + bottom) / 2;
+        const maxRadius = Math.min(right - left, bottom - top) / 2;
+        const labelRadius = maxRadius * 1.15;
+
+        ctx.save();
+        ctx.font = 'bold 12px sans-serif'; // Yazı tipini biraz küçülttük
+        ctx.fillStyle = '#6c757d';
+
+        labels.forEach((label, i) => {
+            const segmentAngle = (2 * Math.PI) / labels.length;
+            const angle = (i * segmentAngle) - (Math.PI / 2) + (segmentAngle / 2);
+            const epsilon = 0.001;
+
+            let x = centerX + Math.cos(angle) * labelRadius;
+            let y = centerY + Math.sin(angle) * labelRadius;
+            
+            if (angle > -Math.PI / 2 && angle < Math.PI / 2) { ctx.textAlign = 'left'; } 
+            else { ctx.textAlign = 'right'; }
+
+            if (angle > 0 && angle < Math.PI) { ctx.textBaseline = 'top'; } 
+            else { ctx.textBaseline = 'bottom'; }
+
+            if (Math.abs(angle + Math.PI / 2) < epsilon || Math.abs(angle - Math.PI / 2) < epsilon) {
+                ctx.textAlign = 'center';
+            }
+            if (Math.abs(angle) < epsilon || Math.abs(angle - Math.PI) < epsilon || Math.abs(angle + Math.PI) < epsilon) {
+                ctx.textBaseline = 'middle';
+            }
+            
+            ctx.fillText(label, x, y);
+        });
+        ctx.restore();
+    }
+};
+
+// YENİ EKLENTİ: Hedef yaylarını çizer
+const targetArcPlugin = {
+    id: 'targetArcPlugin',
+    afterDatasetsDraw: (chart, args, options) => {
+        const { ctx } = chart;
+        // Düzeltme: Etiketin "Hedef" ile başladığını kontrol et
+        const targetDatasetIndex = chart.data.datasets.findIndex(ds => ds.label.startsWith('Hedef'));
+        
+        if (targetDatasetIndex === -1) return;
+
+        const meta = chart.getDatasetMeta(targetDatasetIndex);
+        
+        ctx.save();
+        meta.data.forEach((element, index) => {
+            const { x, y, startAngle, endAngle, outerRadius } = element;
+
+            ctx.beginPath();
+            ctx.arc(x, y, outerRadius, startAngle, endAngle);
+            
+            // Düzeltme: Rengi kırmızı yap
+            ctx.strokeStyle = 'rgba(220, 53, 69, 1)'; // Kırmızı
+            ctx.lineWidth = 4; // Daha kalın çizgi
+            ctx.stroke();
+        });
+        ctx.restore();
+    }
+};
+
+document.addEventListener('DOMContentLoaded', function() {
+    const comparisonData = JSON.parse('{{ comparison_data|safe }}');
+    
+    if (comparisonData.datasets.length > 0) {
+        const ctx = document.getElementById('comparisonChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'polarArea',
+            data: comparisonData,
+            plugins: [symmetricalLabelsPlugin, targetArcPlugin], // Eklentileri etkinleştir
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: { padding: 40 },
+                scales: {
+                    r: {
+                        min: 0,
+                        max: 10,
+                        pointLabels: { display: false },
+                        ticks: { display: false }, // Dashboard'da skala sayıları kapalı
+                        grid: { circular: true },
+                        angleLines: {
+                            display: true,
+                            color: 'rgba(0, 0, 0, 0.1)',
+                            lineWidth: 1
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false // Lejantı kaldır
+                    }
+                }
+            }
+        });
+    } else {
+        const chartContainer = document.getElementById('comparisonChart').parentElement;
+        chartContainer.innerHTML = '<p class="text-center text-muted">Karşılaştırma grafiği için en az bir değerlendirme yapmanız gerekmektedir.</p>';
+    }
+});
+</script>
+{% endblock %}

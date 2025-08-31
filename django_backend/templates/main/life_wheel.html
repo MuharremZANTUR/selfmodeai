@@ -1,0 +1,211 @@
+{% extends 'base.html' %}
+
+{% block title %}Yaşam Çarkı Değerlendirmesi - selfmode.app{% endblock %}
+
+{% block extra_css %}
+<style>
+    .life-wheel-table th:first-child {
+        width: 50%; /* Alanlar sütununu açıklamalar için genişlet */
+    }
+    .life-wheel-table td {
+        vertical-align: middle; /* İçeriği dikeyde ortala */
+        text-align: center; /* İçeriği (input dahil) yatayda ortala */
+    }
+    .life-wheel-table input[type="number"] {
+        width: 60px; /* Giriş kutularını daralt */
+        padding: 0.375rem 0.25rem; /* İç boşluğu ayarla */
+        text-align: center;
+        border-radius: 0.25rem;
+        border: 1px solid #ced4da;
+        display: inline-block; /* Ortalamanın çalışması için gerekli */
+    }
+    .life-wheel-table input:disabled {
+        background-color: #e9ecef;
+        opacity: 1;
+    }
+    .life-wheel-table .progress {
+        height: 25px;
+        font-size: 14px;
+        min-width: 100px;
+    }
+    .sticky-header {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+    }
+    .th-test-1 { background-color: rgba(33, 37, 41, 0.1); } /* Siyah */
+    .th-test-2 { background-color: rgba(13, 110, 253, 0.1); } /* Mavi */
+    .th-test-3 { background-color: rgba(25, 135, 84, 0.1); } /* Yeşil */
+    .th-test-4 { background-color: rgba(255, 193, 7, 0.1); } /* Sarı */
+    .th-hedef { background-color: rgba(220, 53, 69, 0.1); } /* Kırmızı */
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2>🎯 Yaşam Çarkı Değerlendirmesi (Test #{{ next_test_number }})</h2>
+        <p class="lead text-muted">Aşağıdaki tabloyu kullanarak hayatının 8 alanını 1-10 arası puanla.</p>
+    </div>
+</div>
+
+<form method="post">
+    {% csrf_token %}
+
+    {% if is_first_test %}
+    <!-- Sadece ilk testte gösterilecek profil ve hedef bilgileri -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header"><h5 class="card-title mb-0">👤 Profil Bilgileri</h5></div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="employment_status" class="form-label">Çalışma Durumu</label>
+                            <select class="form-select" id="employment_status" name="employment_status" required>
+                                <option value="student">Öğrenci</option>
+                                <option value="employed" selected>Çalışan</option>
+                                <option value="unemployed">İşsiz</option>
+                                <option value="retired">Emekli</option>
+                                <option value="entrepreneur">Girişimci</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="marital_status" class="form-label">Medeni Durum</label>
+                            <select class="form-select" id="marital_status" name="marital_status" required>
+                                <option value="single" selected>Bekar</option>
+                                <option value="married">Evli</option>
+                                <option value="divorced">Boşanmış</option>
+                                <option value="widowed">Dul</option>
+                                <option value="relationship">İlişkisi var</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="profession" class="form-label">Meslek</label>
+                            <input type="text" class="form-control" id="profession" name="profession" placeholder="Örn: Mühendis">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="job_title" class="form-label">Ünvan</label>
+                            <input type="text" class="form-control" id="job_title" name="job_title" placeholder="Örn: Yazılım Geliştirici">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="age_range" class="form-label">Yaş Aralığı</label>
+                            <select class="form-select" id="age_range" name="age_range" required>
+                                <option value="18-24">18-24</option>
+                                <option value="25-34" selected>25-34</option>
+                                <option value="35-44">35-44</option>
+                                <option value="45-54">45-54</option>
+                                <option value="55+">55+</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="living_area" class="form-label">Yaşam Alanı</label>
+                            <select class="form-select" id="living_area" name="living_area" required>
+                                <option value="metropolis">Metropol (Büyükşehir)</option>
+                                <option value="city" selected>Şehir</option>
+                                <option value="town_village">Kasaba/Köy</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="education_level" class="form-label">Eğitim Seviyesi</label>
+                            <select class="form-select" id="education_level" name="education_level" required>
+                                <option value="high_school">Lise</option>
+                                <option value="associate">Ön Lisans</option>
+                                <option value="bachelor" selected>Lisans</option>
+                                <option value="master">Yüksek Lisans</option>
+                                <option value="doctorate">Doktora</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3 d-flex align-items-center">
+                             <div class="w-100">
+                                <label for="children_status" class="form-label">Çocuğunuz var mı?</label>
+                                <select class="form-select" id="children_status" name="children_status" required>
+                                    <option value="none" selected>Yok</option>
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3+">3+</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card mb-4">
+                <div class="card-header"><h5 class="card-title mb-0">🎯 Hedefler & Öncelikler</h5></div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label for="goal1" class="form-label">1. Hedef</label>
+                        <input type="text" class="form-control" id="goal1" name="goal1" placeholder="Örn: Kariyer değişikliği" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="goal2" class="form-label">2. Hedef</label>
+                        <input type="text" class="form-control" id="goal2" name="goal2" placeholder="Örn: Sağlıklı yaşam" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="goal3" class="form-label">3. Hedef</label>
+                        <input type="text" class="form-control" id="goal3" name="goal3" placeholder="Örn: İlişki geliştirme" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="priorities" class="form-label">Hayattaki Öncelikleriniz</label>
+                        <input type="text" class="form-control" id="priorities" name="priorities" placeholder="Örn: Ailem, çocuklarım, işim, eğitimim...">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="card">
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered table-striped text-center life-wheel-table">
+                    <thead class="table-light sticky-header">
+                        <tr>
+                            <th style="width: 50%;">Yaşam Alanları</th>
+                            <th class="th-test-1">1. Test</th>
+                            <th class="th-test-2">2. Test</th>
+                            <th class="th-test-3">3. Test</th>
+                            <th class="th-test-4">4. Test</th>
+                            <th class="th-hedef">Hedef</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in table_data %}
+                        <tr data-row-key="{{ row.area_key }}">
+                            <td class="text-start align-middle">
+                                <strong>{{ row.area_display }}</strong>
+                                <p class="text-muted small mb-0">{{ row.description }}</p>
+                            </td>
+                            <!-- Test 1 -->
+                            <td><input type="number" name="test_1_{{ row.area_key }}" value="{{ row.test_1_score }}" {% if next_test_number != 1 %}disabled{% endif %} min="1" max="10" class="form-control form-control-sm score-input" required></td>
+                            <!-- Test 2 -->
+                            <td><input type="number" name="test_2_{{ row.area_key }}" value="{{ row.test_2_score }}" {% if next_test_number != 2 %}disabled{% endif %} min="1" max="10" class="form-control form-control-sm score-input" required></td>
+                            <!-- Test 3 -->
+                            <td><input type="number" name="test_3_{{ row.area_key }}" value="{{ row.test_3_score }}" {% if next_test_number != 3 %}disabled{% endif %} min="1" max="10" class="form-control form-control-sm score-input" required></td>
+                            <!-- Test 4 -->
+                            <td><input type="number" name="test_4_{{ row.area_key }}" value="{{ row.test_4_score }}" {% if next_test_number != 4 %}disabled{% endif %} min="1" max="10" class="form-control form-control-sm score-input" required></td>
+                            <!-- Hedefler -->
+                            <td><input type="number" name="target_{{ row.area_key }}" value="{{ row.target_score }}" {% if not is_first_test %}disabled{% endif %} min="1" max="10" class="form-control form-control-sm score-input" required></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="text-center mt-4">
+        <button type="submit" class="btn btn-primary btn-lg px-5">💾 Değerlendirmeyi Kaydet</button>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Artık progress bar olmadığı için bu alan boş kalabilir veya başka scriptler için kullanılabilir.
+</script>
+{% endblock %}
+

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logo Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .logo-preview {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            border: 2px dashed #ddd;
+            border-radius: 10px;
+        }
+        .logo-preview svg {
+            max-width: 200px;
+            height: auto;
+        }
+        .download-btn {
+            background: #3B82F6;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 10px;
+        }
+        .download-btn:hover {
+            background: #2563EB;
+        }
+        .instructions {
+            background: #f0f9ff;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            border-left: 4px solid #3B82F6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 SelfMode Logo Converter</h1>
+        
+        <div class="instructions">
+            <h3>📋 Kullanım:</h3>
+            <ol>
+                <li>Logo önizlemesini kontrol edin</li>
+                <li>İstediğiniz boyutta PNG olarak indirin</li>
+                <li>İndirilen dosyayı <code>frontend/public/</code> klasörüne kopyalayın</li>
+                <li><code>index.html</code>'de favicon referansını güncelleyin</li>
+            </ol>
+        </div>
+
+        <div class="logo-preview">
+            <h3>Logo Önizlemesi:</h3>
+            <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <!-- Blue to Orange gradient for main square -->
+                    <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#F97316;stop-opacity:1" />
+                    </linearGradient>
+                    
+                    <!-- Green to Orange gradient for small circle -->
+                    <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#F97316;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                
+                <!-- Main rounded square with blue-orange gradient -->
+                <rect x="8" y="8" width="176" height="176" rx="24" ry="24" fill="url(#mainGradient)" />
+                
+                <!-- Large white S letter -->
+                <text x="96" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="white">S</text>
+                
+                <!-- Small circle with green-orange gradient -->
+                <circle cx="140" cy="140" r="20" fill="url(#circleGradient)" />
+                
+                <!-- White M letter in small circle -->
+                <text x="140" y="150" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">M</text>
+            </svg>
+        </div>
+
+        <div style="text-align: center;">
+            <button class="download-btn" onclick="downloadLogo(32)">📱 32x32 (Favicon)</button>
+            <button class="download-btn" onclick="downloadLogo(64)">🖥️ 64x64</button>
+            <button class="download-btn" onclick="downloadLogo(128)">💻 128x128</button>
+            <button class="download-btn" onclick="downloadLogo(192)">🖥️ 192x192</button>
+            <button class="download-btn" onclick="downloadLogo(512)">🖥️ 512x512</button>
+        </div>
+
+        <div class="instructions">
+            <h3>🔧 Sonraki Adımlar:</h3>
+            <p>Logo indirildikten sonra:</p>
+            <ol>
+                <li>İndirilen PNG dosyasını <code>frontend/public/</code> klasörüne kopyalayın</li>
+                <li><code>index.html</code>'de favicon referansını güncelleyin</li>
+                <li>Git commit yapın ve push edin</li>
+                <li>Render'da otomatik deploy olacak</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        function downloadLogo(size) {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Create SVG data URL
+            const svgData = `
+                <svg width="${size}" height="${size}" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="mainGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#F97316;stop-opacity:1" />
+                        </linearGradient>
+                        <linearGradient id="circleGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#F97316;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="8" y="8" width="176" height="176" rx="24" ry="24" fill="url(#mainGradient)" />
+                    <text x="96" y="120" font-family="Arial, sans-serif" font-size="80" font-weight="bold" text-anchor="middle" fill="white">S</text>
+                    <circle cx="140" cy="140" r="20" fill="url(#circleGradient)" />
+                    <text x="140" y="150" font-family="Arial, sans-serif" font-size="16" font-weight="bold" text-anchor="middle" fill="white">M</text>
+                </svg>
+            `;
+            
+            const svgBlob = new Blob([svgData], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(svgBlob);
+            
+            const img = new Image();
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, size, size);
+                
+                // Download PNG
+                const link = document.createElement('a');
+                link.download = `selfmode-logo-${size}x${size}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                URL.revokeObjectURL(url);
+            };
+            img.src = url;
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Test Hakkınız Kalmadı - selfmode.app{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <div class="card shadow-sm">
+            <div class="card-body p-5">
+                <h2 class="card-title">😢</h2>
+                <h3 class="mb-3">Yeni Test Hakkınız Bulunmamaktadır</h3>
+                <p class="lead text-muted">
+                    Kişisel gelişim yolculuğunuza devam etmek ve yeni bir Yaşam Çarkı değerlendirmesi yapmak için lütfen yeni bir test hakkı satın alın.
+                </p>
+                <a href="{% url 'payments:initiate_payment' %}" class="btn btn-primary btn-lg mt-3">
+                    💳 Yeni Test Hakkı Satın Al (10.00 TL)
+                </a>
+                <p class="text-muted small mt-3 mb-0">
+                    <i class="fas fa-lock"></i> Shopier'in güvenli ödeme altyapısı kullanılmaktadır.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

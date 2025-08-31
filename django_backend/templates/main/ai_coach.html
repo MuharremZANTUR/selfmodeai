@@ -1,0 +1,179 @@
+{% extends 'base.html' %}
+
+{% block title %}AI Koç - selfmode.app{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>🤖 AI Koç</h2>
+            <div class="badge bg-info fs-6">Gemini AI Destekli</div>
+        </div>
+        
+        <div class="alert alert-info">
+            <strong>💡 AI Koç Nedir?</strong> Gemini AI teknolojisi ile kişiselleştirilmiş yaşam koçluğu alın. 
+            Hedeflerinizi belirleyin, ilerlemenizi analiz edin ve kişisel gelişim için öneriler alın.
+        </div>
+    </div>
+</div>
+
+<!-- AI Koç Özellikleri -->
+<div class="row mb-4">
+    <div class="col-md-4">
+        <div class="card h-100 border-primary">
+            <div class="card-body text-center">
+                <div class="h1 text-primary mb-3">🎯</div>
+                <h5 class="card-title">Hedef Belirleme</h5>
+                <p class="card-text">AI destekli hedef analizi ile hayatınızın farklı alanlarında neyi başarmak istediğinizi belirleyin.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card h-100 border-success">
+            <div class="card-body text-center">
+                <div class="h1 text-success mb-3">📊</div>
+                <h5 class="card-title">İlerleme Analizi</h5>
+                <p class="card-text">Düzenli değerlendirmeler ile gelişiminizi takip edin ve AI'dan detaylı ilerleme raporları alın.</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card h-100 border-info">
+            <div class="card-body text-center">
+                <div class="h1 text-info mb-3">💭</div>
+                <h5 class="card-title">Kişisel Rehberlik</h5>
+                <p class="card-text">Yaşam çarkı sonuçlarınıza göre kişiselleştirilmiş öneriler ve motivasyon mesajları alın.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hızlı Başlangıç -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">🚀 Hızlı Başlangıç</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h6>1. Yaşam Çarkı Değerlendirmesi</h6>
+                        <p class="text-muted">Hayatınızın 8 farklı alanını değerlendirin ve mevcut durumunuzu analiz edin.</p>
+                        <a href="{% url 'main:life_wheel' %}" class="btn btn-primary">Yaşam Çarkı Başlat</a>
+                    </div>
+                    <div class="col-md-6">
+                        <h6>2. AI Raporu Oluştur</h6>
+                        <p class="text-muted">Değerlendirme sonuçlarınıza göre Gemini AI ile kişiselleştirilmiş rapor alın.</p>
+                        <a href="{% url 'main:assessments' %}" class="btn btn-success">Değerlendirme Yap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- AI Özellikleri -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">🤖 AI Özellikleri</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">✅ <strong>Kişiselleştirilmiş Analiz:</strong> Yaşam çarkı skorlarınıza göre özel raporlar</li>
+                            <li class="mb-2">✅ <strong>Hedef Belirleme:</strong> SMART hedefler ile planlama</li>
+                            <li class="mb-2">✅ <strong>İlerleme Takibi:</strong> Düzenli değerlendirmeler ile gelişim analizi</li>
+                            <li class="mb-2">✅ <strong>Motivasyon:</strong> Kişiselleştirilmiş motivasyon mesajları</li>
+                        </ul>
+                    </div>
+                    <div class="col-md-6">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">✅ <strong>Öneriler:</strong> Pratik ve uygulanabilir yaşam önerileri</li>
+                            <li class="mb-2">✅ <strong>Trend Analizi:</strong> Zaman içindeki gelişim trendleri</li>
+                            <li class="mb-2">✅ <strong>Denge Analizi:</strong> Yaşam alanları arası denge değerlendirmesi</li>
+                            <li class="mb-2">✅ <strong>24/7 Erişim:</strong> İstediğiniz zaman AI koçluğu</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Gemini AI Entegrasyonu -->
+<div class="row">
+    <div class="col-12">
+        <div class="card bg-light">
+            <div class="card-body text-center">
+                <div class="row align-items-center">
+                    <div class="col-md-8">
+                        <h5 class="card-title">🚀 Gemini AI ile Derinlemesine Analiz</h5>
+                        <p class="card-text">Google'ın en gelişmiş AI modeli ile yaşam çarkı değerlendirmelerinizi analiz edin ve kişiselleştirilmiş öneriler alın.</p>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-lg btn-primary" onclick="startGeminiAnalysis()">
+                            <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_24x24_color.png" 
+                                 alt="Gemini" width="24" height="24" class="me-2">
+                            Gemini AI ile Analiz Başlat
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Son AI Raporları -->
+{% if recent_reports %}
+<div class="row mt-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📋 Son AI Raporlarınız</h5>
+            </div>
+            <div class="card-body">
+                {% for report in recent_reports %}
+                <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                    <div>
+                        <strong>{{ report.get_report_type_display }}</strong>
+                        <br>
+                        <small class="text-muted">Test #{{ report.test_number }} - {{ report.created_at|date:"d.m.Y H:i" }}</small>
+                    </div>
+                    <div>
+                        <a href="{% url 'main:ai_report' report.id %}" class="btn btn-sm btn-outline-primary">Görüntüle</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block extra_js %}
+<script>
+function startGeminiAnalysis() {
+    // Gemini AI analizi başlat
+    if (typeof SelfModeUtils !== 'undefined') {
+        SelfModeUtils.showNotification('Gemini AI analizi başlatılıyor...', 'info');
+    }
+    
+    // Yaşam çarkı sayfasına yönlendir
+    setTimeout(() => {
+        window.location.href = "{% url 'main:life_wheel' %}";
+    }, 1500);
+}
+
+// Sayfa yüklendiğinde
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('AI Koç sayfası yüklendi');
+});
+</script>
+{% endblock %}

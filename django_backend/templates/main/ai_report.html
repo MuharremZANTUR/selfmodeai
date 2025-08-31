@@ -1,0 +1,360 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}AI Yaşam Çarkı Raporu - selfmode.app{% endblock %}
+
+{% block extra_css %}
+<style>
+.report-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.report-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    margin-bottom: 2rem;
+}
+
+.life-wheel-chart {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.report-content {
+    background: white;
+    border-radius: 1rem;
+    padding: 2rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+.audio-controls {
+    background: #f8f9fa;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.gemini-button {
+    background: linear-gradient(135deg, #4285f4 0%, #34a853 100%);
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 0.25rem 0.5rem rgba(66, 133, 244, 0.3);
+}
+
+.gemini-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(66, 133, 244, 0.4);
+}
+
+.score-card {
+    background: white;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    text-align: center;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.score-card:hover {
+    transform: translateY(-5px);
+}
+
+.score-value {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.goals-section {
+    background: #e3f2fd;
+    border-radius: 0.75rem;
+    padding: 1.5rem;
+    margin: 1rem 0;
+}
+
+.markdown-content {
+    line-height: 1.8;
+    font-size: 1.1rem;
+}
+
+.markdown-content h1, .markdown-content h2, .markdown-content h3 {
+    color: #2c3e50;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.markdown-content p {
+    margin-bottom: 1rem;
+}
+
+.markdown-content ul, .markdown-content ol {
+    margin-bottom: 1rem;
+    padding-left: 2rem;
+}
+
+.markdown-content li {
+    margin-bottom: 0.5rem;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="report-container">
+    <!-- Report Header -->
+    <div class="report-header text-center">
+        <h1 class="mb-3">🤖 AI Yaşam Çarkı Uzmanlık Raporu</h1>
+        <p class="lead mb-0">
+            Test #{{ report.assessment.test_number }} - {{ report.created_at|date:"d.m.Y H:i" }}
+        </p>
+        <div class="mt-3">
+            <span class="badge bg-light text-dark me-2">{{ report.get_report_type_display }}</span>
+            <span class="badge bg-info">{{ report.assessment.user.username }}</span>
+        </div>
+    </div>
+
+    <!-- Life Wheel Chart -->
+    <div class="life-wheel-chart">
+        <h3 class="mb-3">📊 Yaşam Çarkı Analizi</h3>
+        <div class="row">
+            <div class="col-md-8">
+                <div class="chart-container" style="position: relative; height:400px;">
+                    <canvas id="lifeWheelChart"></canvas>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-primary">{{ report.assessment.career }}</div>
+                            <small class="text-muted">Kariyer</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-success">{{ report.assessment.health }}</div>
+                            <small class="text-muted">Sağlık</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-danger">{{ report.assessment.relationships }}</div>
+                            <small class="text-muted">İlişkiler</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-info">{{ report.assessment.personal_growth }}</div>
+                            <small class="text-muted">Gelişim</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-warning">{{ report.assessment.finances }}</div>
+                            <small class="text-muted">Finans</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-secondary">{{ report.assessment.home }}</div>
+                            <small class="text-muted">Ev</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-success">{{ report.assessment.fun }}</div>
+                            <small class="text-muted">Eğlence</small>
+                        </div>
+                    </div>
+                    <div class="col-6 mb-3">
+                        <div class="score-card">
+                            <div class="score-value text-dark">{{ report.assessment.spirituality }}</div>
+                            <small class="text-muted">Maneviyat</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Goals Section -->
+    {% if report.assessment.goal1 or report.assessment.goal2 or report.assessment.goal3 %}
+    <div class="goals-section">
+        <h4 class="mb-3">🎯 Belirlenen Hedefler</h4>
+        <div class="row">
+            {% if report.assessment.goal1 %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="h5 text-primary mb-2">Hedef 1</div>
+                        <p class="card-text">{{ report.assessment.goal1 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if report.assessment.goal2 %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="h5 text-success mb-2">Hedef 2</div>
+                        <p class="card-text">{{ report.assessment.goal2 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            {% if report.assessment.goal3 %}
+            <div class="col-md-4 mb-3">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <div class="h5 text-info mb-2">Hedef 3</div>
+                        <p class="card-text">{{ report.assessment.goal3 }}</p>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- AI Report Content -->
+    <div class="report-content">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h3 class="mb-0">🧠 AI Analiz Raporu</h3>
+            <button class="gemini-button" onclick="startDeepAnalysis()">
+                <img src="https://www.gstatic.com/lamda/images/gemini_sparkle_v002_24x24_color.png" 
+                     alt="Gemini AI" class="me-2" style="width: 20px; height: 20px;">
+                Gemini AI ile Derinlemesine Analiz Başlat
+            </button>
+        </div>
+        
+        <div class="markdown-content">
+            {{ report.markdown_content|safe }}
+        </div>
+    </div>
+
+    <!-- Audio Controls -->
+    <div class="audio-controls">
+        <h4 class="mb-3">🎵 Sesli Rapor</h4>
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <audio id="reportAudio" controls class="w-100">
+                    <source src="{% static 'audio/report.mp3' %}" type="audio/mpeg">
+                    Tarayıcınız ses dosyasını desteklemiyor.
+                </audio>
+            </div>
+            <div class="col-md-4 text-end">
+                <button class="btn btn-outline-primary me-2" onclick="playAudio()">
+                    <i class="fas fa-play"></i> Oynat
+                </button>
+                <button class="btn btn-outline-secondary" onclick="pauseAudio()">
+                    <i class="fas fa-pause"></i> Duraklat
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="text-center mt-4">
+        <a href="{% url 'main:life_wheel' %}" class="btn btn-primary btn-lg me-3">
+            🔄 Yeni Değerlendirme Yap
+        </a>
+        <a href="{% url 'main:dashboard' %}" class="btn btn-outline-primary btn-lg">
+            📊 Dashboard'a Dön
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Life Wheel Chart
+document.addEventListener('DOMContentLoaded', function() {
+    const ctx = document.getElementById('lifeWheelChart').getContext('2d');
+    
+    new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: ['Kariyer', 'Sağlık', 'İlişkiler', 'Kişisel Gelişim', 'Finans', 'Ev', 'Eğlence', 'Maneviyat'],
+            datasets: [{
+                label: 'Mevcut Durum',
+                data: [
+                    {{ report.assessment.career }},
+                    {{ report.assessment.health }},
+                    {{ report.assessment.relationships }},
+                    {{ report.assessment.personal_growth }},
+                    {{ report.assessment.finances }},
+                    {{ report.assessment.home }},
+                    {{ report.assessment.fun }},
+                    {{ report.assessment.spirituality }}
+                ],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                borderWidth: 2,
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                r: {
+                    beginAtZero: true,
+                    max: 10,
+                    ticks: {
+                        stepSize: 2
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+});
+
+// Audio Controls
+function playAudio() {
+    const audio = document.getElementById('reportAudio');
+    audio.play();
+}
+
+function pauseAudio() {
+    const audio = document.getElementById('reportAudio');
+    audio.pause();
+}
+
+// Deep Analysis Function
+function startDeepAnalysis() {
+    if (typeof SelfModeUtils !== 'undefined') {
+        SelfModeUtils.showNotification('Gemini AI analizi başlatılıyor...', 'info');
+    } else {
+        alert('Gemini AI analizi başlatılıyor...');
+    }
+    
+    // Burada AI analizi API çağrısı yapılabilir
+    setTimeout(() => {
+        if (typeof SelfModeUtils !== 'undefined') {
+            SelfModeUtils.showNotification('AI analizi tamamlandı!', 'success');
+        } else {
+            alert('AI analizi tamamlandı!');
+        }
+    }, 3000);
+}
+</script>
+{% endblock %}

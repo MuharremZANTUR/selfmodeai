@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ödeme Başarılı - selfmode.app{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <div class="card border-success shadow-sm">
+            <div class="card-body p-5">
+                <div style="font-size: 4rem; color: var(--bs-success);">✅</div>
+                <h2 class="card-title mt-3">Ödeme Başarıyla Tamamlandı!</h2>
+                <p class="lead text-muted">
+                    Kişisel gelişim yolculuğunuza yatırım yaptığınız için teşekkür ederiz. Hesabınıza <strong>1 yeni Yaşam Çarkı testi hakkı</strong> eklenmiştir.
+                </p>
+                <a href="{% url 'main:dashboard' %}" class="btn btn-success btn-lg mt-4">
+                    Dashboard'a Dön ve Başla
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // 5 saniye sonra kullanıcıyı otomatik olarak Dashboard'a yönlendir
+    setTimeout(function() {
+        window.location.href = "{% url 'main:dashboard' %}";
+    }, 5000);
+</script>
+{% endblock %}

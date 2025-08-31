@@ -1,0 +1,33 @@
+databases:
+  - name: selfmode_db
+    databaseName: selfmode_db
+    user: selfmode_user
+    plan: free
+
+services:
+  - type: web
+    name: selfmode-django-backend
+    runtime: python
+    buildCommand: |
+      pip install --upgrade pip
+      pip install -r django_backend/requirements.txt
+      cd django_backend
+      python manage.py collectstatic --noinput
+      python manage.py migrate
+    startCommand: "gunicorn selfmode_backend.wsgi:application"
+    healthCheckPath: /
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: selfmode_db
+          property: connectionString
+      - key: SECRET_KEY
+        generateValue: true
+      - key: WEB_CONCURRENCY
+        value: 4
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: GEMINI_API_KEY
+        fromSecretFile: .env
+      - key: SHOPIER_PAT
+        fromSecretFile: .env

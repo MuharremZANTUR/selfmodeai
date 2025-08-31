@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+
+{% block title %}selfmode.app - Ana Sayfa{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-lg-8 mx-auto text-center">
+                        <h1 class="display-4 mb-4">selfmode.app'a Hoş Geldiniz</h1>
+        <p class="lead mb-5">
+            Kişisel gelişim yolculuğunuzda size rehberlik eden AI destekli platform
+        </p>
+        
+        {% if not user.is_authenticated %}
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'login' %}" class="btn btn-primary btn-lg px-4 gap-3">
+                    Giriş Yap
+                </a>
+                <a href="{% url 'main:register' %}" class="btn btn-outline-secondary btn-lg px-4">
+                    Kayıt Ol
+                </a>
+            </div>
+        {% else %}
+            <div class="d-grid gap-3 d-sm-flex justify-content-sm-center">
+                <a href="{% url 'main:dashboard' %}" class="btn btn-primary btn-lg px-4 gap-3">
+                    Dashboard'a Git
+                </a>
+                <a href="{% url 'main:life_wheel' %}" class="btn btn-outline-primary btn-lg px-4">
+                    Yaşam Çarkını Görüntüle
+                </a>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row mt-5">
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">🧠 Değerlendirmeler</h5>
+                <p class="card-text">
+                    Kişilik, yetenek ve gelişim alanlarınızı keşfedin
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">🎯 Yaşam Çarkı</h5>
+                <p class="card-text">
+                    Hayatınızın farklı alanlarını görsel olarak analiz edin
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <h5 class="card-title">🤖 AI Koç</h5>
+                <p class="card-text">
+                    Kişiselleştirilmiş öneriler ve rehberlik alın
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

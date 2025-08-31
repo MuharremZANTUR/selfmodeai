@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Ödeme Başarısız - selfmode.app{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+        <div class="card border-danger shadow-sm">
+            <div class="card-body p-5">
+                <div style="font-size: 4rem; color: var(--bs-danger);">❌</div>
+                <h2 class="card-title mt-3">Ödeme Başarısız Oldu</h2>
+                <p class="lead text-muted">
+                    İşleminiz sırasında bir sorun oluştu veya ödeme tarafınızca iptal edildi. Hesabınızdan herhangi bir ücret çekilmemiştir.
+                </p>
+                <div class="mt-4">
+                    <a href="{% url 'payments:initiate_payment' %}" class="btn btn-danger me-2">
+                        Tekrar Dene
+                    </a>
+                    <a href="{% url 'main:dashboard' %}" class="btn btn-secondary">
+                        Dashboard'a Dön
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

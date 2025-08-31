@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SelfMode Logo Seçenekleri</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f8fafc;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #1e293b;
+            margin-bottom: 30px;
+        }
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin: 30px 0;
+        }
+        .logo-option {
+            background: #f8fafc;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+        .logo-option:hover {
+            border-color: #3b82f6;
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+        }
+        .logo-option.selected {
+            border-color: #10b981;
+            background: #f0fdf4;
+        }
+        .logo-option svg {
+            max-width: 150px;
+            height: auto;
+            margin: 20px 0;
+        }
+        .logo-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #1e293b;
+            margin: 15px 0 10px 0;
+        }
+        .logo-description {
+            color: #64748b;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .download-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: #f1f5f9;
+            border-radius: 12px;
+        }
+        .download-btn {
+            background: #10b981;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            margin: 10px;
+            transition: background 0.3s ease;
+        }
+        .download-btn:hover {
+            background: #059669;
+        }
+        .selected-logo {
+            background: #10b981;
+            color: white;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-weight: 600;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 SelfMode Logo Seçenekleri</h1>
+        
+        <div class="logo-grid">
+            <div class="logo-option" onclick="selectLogo('minimal')">
+                <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="modernGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#6366F1;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#EC4899;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <circle cx="96" cy="96" r="88" fill="url(#modernGradient)" />
+                    <text x="96" y="110" font-family="Arial, sans-serif" font-size="72" font-weight="900" text-anchor="middle" fill="white" letter-spacing="2">SM</text>
+                </svg>
+                <div class="logo-title">🟣 Minimalist "SM"</div>
+                <div class="logo-description">Modern, temiz ve basit tasarım. Mor-pembe gradyan ile şık görünüm.</div>
+            </div>
+
+            <div class="logo-option" onclick="selectLogo('geometric')">
+                <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1E40AF;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="40" y="30" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="64" y="30" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="88" y="30" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="40" y="54" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="88" y="54" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="40" y="78" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="64" y="78" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="88" y="78" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="40" y="102" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="88" y="102" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="40" y="126" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="64" y="126" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                    <rect x="88" y="126" width="24" height="24" rx="4" fill="url(#blueGradient)" />
+                </svg>
+                <div class="logo-title">🔵 Geometric "S"</div>
+                <div class="logo-description">Soyut ve geometrik tasarım. Mavi gradyan ile teknolojik görünüm.</div>
+            </div>
+
+            <div class="logo-option" onclick="selectLogo('wave')">
+                <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="waveGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#10B981;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#06B6D4;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path d="M20 120 Q60 80 100 120 T180 120" stroke="url(#waveGradient)" stroke-width="8" fill="none" stroke-linecap="round" />
+                    <path d="M20 140 Q60 100 100 140 T180 140" stroke="url(#waveGradient)" stroke-width="6" fill="none" stroke-linecap="round" />
+                    <path d="M20 160 Q60 120 100 160 T180 160" stroke="url(#waveGradient)" stroke-width="4" fill="none" stroke-linecap="round" />
+                    <circle cx="96" cy="96" r="12" fill="url(#waveGradient)" />
+                </svg>
+                <div class="logo-title">🌊 Abstract Wave</div>
+                <div class="logo-description">Akışkan ve dinamik tasarım. Yeşil-mavi gradyan ile ilerleme hissi.</div>
+            </div>
+
+            <div class="logo-option" onclick="selectLogo('text')">
+                <svg width="192" height="192" viewBox="0 0 192 192" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#1F2937;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#374151;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <rect x="16" y="16" width="160" height="160" rx="20" fill="#F3F4F6" />
+                    <text x="96" y="100" font-family="Arial, sans-serif" font-size="28" font-weight="700" text-anchor="middle" fill="url(#textGradient)">SelfMode</text>
+                    <text x="96" y="130" font-family="Arial, sans-serif" font-size="14" font-weight="400" text-anchor="middle" fill="#6B7280">Switch to Self Mode</text>
+                </svg>
+                <div class="logo-title">📝 Simple Text</div>
+                <div class="logo-description">Klasik ve profesyonel tasarım. Okunabilir ve net görünüm.</div>
+            </div>
+        </div>
+
+        <div class="selected-logo" id="selectedLogo">
+            Seçilen Logo: <span id="selectedLogoName"></span>
+        </div>
+
+        <div class="download-section">
+            <h3>📥 Logo İndirme</h3>
+            <p>Beğendiğiniz logoyu seçin ve istediğiniz boyutta indirin:</p>
+            
+            <button class="download-btn" onclick="downloadLogo(32)">📱 32x32 (Favicon)</button>
+            <button class="download-btn" onclick="downloadLogo(64)">🖥️ 64x64</button>
+            <button class="download-btn" onclick="downloadLogo(128)">💻 128x128</button>
+            <button class="download-btn" onclick="downloadLogo(192)">🖥️ 192x192</button>
+            <button class="download-btn" onclick="downloadLogo(512)">🖥️ 512x512</button>
+        </div>
+
+        <div style="background: #f0f9ff; padding: 20px; border-radius: 8px; margin-top: 30px;">
+            <h3>🔧 Sonraki Adımlar:</h3>
+            <ol>
+                <li>Beğendiğiniz logoyu seçin</li>
+                <li>İstediğiniz boyutta PNG olarak indirin</li>
+                <li>İndirilen dosyayı <code>frontend/public/</code> klasörüne kopyalayın</li>
+                <li><code>index.html</code>'de favicon referansını güncelleyin</li>
+                <li>Git commit yapın ve push edin</li>
+            </ol>
+        </div>
+    </div>
+
+    <script>
+        let selectedLogoType = null;
+
+        function selectLogo(type) {
+            // Remove previous selection
+            document.querySelectorAll('.logo-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            // Add selection to clicked option
+            event.currentTarget.classList.add('selected');
+            
+            // Update selected logo info
+            selectedLogoType = type;
+            document.getElementById('selectedLogo').style.display = 'block';
+            
+            const logoNames = {
+                'minimal': 'Minimalist "SM"',
+                'geometric': 'Geometric "S"',
+                'wave': 'Abstract Wave',
+                'text': 'Simple Text'
+            };
+            
+            document.getElementById('selectedLogoName').textContent = logoNames[type];
+        }
+
+        function downloadLogo(size) {
+            if (!selectedLogoType) {
+                alert('Lütfen önce bir logo seçin!');
+                return;
+            }
+
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = size;
+            canvas.height = size;
+            
+            // Get selected logo SVG
+            const selectedOption = document.querySelector('.logo-option.selected');
+            const svgElement = selectedOption.querySelector('svg');
+            const svgData = new XMLSerializer().serializeToString(svgElement);
+            
+            const svgBlob = new Blob([svgData], {type: 'image/svg+xml'});
+            const url = URL.createObjectURL(svgBlob);
+            
+            const img = new Image();
+            img.onload = function() {
+                ctx.drawImage(img, 0, 0, size, size);
+                
+                // Download PNG
+                const link = document.createElement('a');
+                link.download = `selfmode-logo-${selectedLogoType}-${size}x${size}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                URL.revokeObjectURL(url);
+            };
+            img.src = url;
+        }
+    </script>
+</body>
+</html>
+

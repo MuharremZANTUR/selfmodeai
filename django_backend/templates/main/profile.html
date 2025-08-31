@@ -1,0 +1,188 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil - selfmode.app{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-12">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2>👤 Profil</h2>
+            <div class="badge bg-primary fs-6">{{ user.username }}</div>
+        </div>
+    </div>
+</div>
+
+<!-- Profil Bilgileri -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📋 Hesap Bilgileri</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-4"><strong>Kullanıcı Adı:</strong></div>
+                    <div class="col-8">{{ user.username }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4"><strong>E-posta:</strong></div>
+                    <div class="col-8">{{ user.email|default:"Belirtilmemiş" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4"><strong>Ad:</strong></div>
+                    <div class="col-8">{{ user.first_name|default:"Belirtilmemiş" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4"><strong>Soyad:</strong></div>
+                    <div class="col-8">{{ user.last_name|default:"Belirtilmemiş" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4"><strong>Üyelik:</strong></div>
+                    <div class="col-8">{{ user.date_joined|date:"d.m.Y" }}</div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-4"><strong>Son Giriş:</strong></div>
+                    <div class="col-8">{{ user.last_login|date:"d.m.Y H:i"|default:"Hiç giriş yapılmamış" }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📊 İstatistikler</h5>
+            </div>
+            <div class="card-body">
+                <div class="row mb-3">
+                    <div class="col-6">
+                        <div class="text-center">
+                            <div class="h2 text-primary mb-0">{{ total_assessments }}</div>
+                            <small class="text-muted">Toplam Değerlendirme</small>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="text-center">
+                            <div class="h2 text-success mb-0">{{ total_reports }}</div>
+                            <small class="text-muted">AI Raporu</small>
+                        </div>
+                    </div>
+                </div>
+                
+                {% if latest_assessment %}
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <h6>Son Değerlendirme Skoru</h6>
+                        <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ latest_assessment.average_score|floatformat:0 }}%"
+                                 aria-valuenow="{{ latest_assessment.average_score }}" 
+                                 aria-valuemin="0" aria-valuemax="10">
+                                {{ latest_assessment.average_score }}/10
+                            </div>
+                        </div>
+                        <small class="text-muted">Test #{{ latest_assessment.test_number }} - {{ latest_assessment.created_at|date:"d.m.Y" }}</small>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="row">
+                    <div class="col-12">
+                        <h6>En İyi Alanlar</h6>
+                        {% if top_areas %}
+                            {% for area, score in top_areas %}
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span>{{ area }}</span>
+                                <span class="badge bg-success">{{ score }}/10</span>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <p class="text-muted small">Henüz değerlendirme yapılmamış</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Son Aktiviteler -->
+<div class="row mb-4">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">📈 Son Aktiviteler</h5>
+            </div>
+            <div class="card-body">
+                {% if recent_activities %}
+                    {% for activity in recent_activities %}
+                    <div class="d-flex justify-content-between align-items-center py-2 border-bottom">
+                        <div>
+                            <strong>{{ activity.title }}</strong>
+                            <br>
+                            <small class="text-muted">{{ activity.description }}</small>
+                        </div>
+                        <div class="text-end">
+                            <small class="text-muted">{{ activity.created_at|date:"d.m.Y H:i" }}</small>
+                        </div>
+                    </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-muted text-center py-3">Henüz aktivite bulunmuyor.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Hızlı Erişim -->
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title mb-0">🚀 Hızlı Erişim</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'main:life_wheel' %}" class="btn btn-outline-primary w-100">
+                            🎯 Yaşam Çarkı
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'main:assessments' %}" class="btn btn-outline-success w-100">
+                            📊 Değerlendirme
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'main:ai_coach' %}" class="btn btn-outline-info w-100">
+                            🤖 AI Koç
+                        </a>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                        <a href="{% url 'main:dashboard' %}" class="btn btn-outline-warning w-100">
+                            📋 Dashboard
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Profil sayfası yüklendi');
+    
+    // Profil istatistiklerini güncelle
+    updateProfileStats();
+});
+
+function updateProfileStats() {
+    // Burada AJAX ile gerçek zamanlı istatistikler güncellenebilir
+    console.log('Profil istatistikleri güncellendi');
+}
+</script>
+{% endblock %}

@@ -1,0 +1,13 @@
+# Local DNS Resolution for SelfMode Platform
+127.0.0.1 selfmode.local
+127.0.0.1 www.selfmode.local
+127.0.0.1 selfmode.app
+127.0.0.1 www.selfmode.app
+
+# API subdomain
+127.0.0.1 api.selfmode.local
+127.0.0.1 api.selfmode.app
+
+# Admin subdomain
+127.0.0.1 admin.selfmode.local
+127.0.0.1 admin.selfmode.app
