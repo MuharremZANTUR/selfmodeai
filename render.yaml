@@ -16,7 +16,7 @@ services:
       cd django_backend
       python manage.py collectstatic --noinput
       python manage.py migrate
-    startCommand: "gunicorn selfmode_backend.wsgi:application"
+    startCommand: "cd django_backend && gunicorn selfmode_backend.wsgi:application --bind 0.0.0.0:$PORT"
     healthCheckPath: /
     envVars:
       - key: DATABASE_URL
