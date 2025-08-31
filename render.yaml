@@ -9,9 +9,9 @@ services:
     name: selfmode-django-backend
     runtime: python
     buildCommand: |
-      cd django_backend
       pip install --upgrade pip
       pip install -r requirements.txt
+      cd django_backend
       python manage.py collectstatic --noinput
       python manage.py migrate
     startCommand: "gunicorn selfmode_backend.wsgi:application"
