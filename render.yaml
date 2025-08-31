@@ -1,3 +1,5 @@
+# Render.com deployment configuration for selfmode-platform
+# Updated: 2025-08-31 - Fixed build command and start command
 databases:
   - name: selfmode_db
     databaseName: selfmode_db
