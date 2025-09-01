@@ -30,6 +30,6 @@ services:
       - key: PYTHON_VERSION
         value: 3.11.9
       - key: GEMINI_API_KEY
-        fromSecretFile: .env
+        sync: false
       - key: SHOPIER_PAT
-        fromSecretFile: .env
+        sync: false
