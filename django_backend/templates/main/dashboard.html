@@ -214,8 +214,7 @@
                             {% for row in summary_data %}
                             <tr>
                                 <td class="text-start">
-                                    <strong>{{ row.area }}</strong>
-                                    <p class="text-muted small mb-0">{{ row.description }}</p>
+                                    <strong>{{ row.area }}</strong> <span class="text-muted small">{{ row.description }}</span>
                                 </td>
                                 <td>{{ row.test_1_score|default:"-" }}</td>
                                 <td>{{ row.test_2_score|default:"-" }}</td>

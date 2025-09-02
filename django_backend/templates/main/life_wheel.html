@@ -177,8 +177,7 @@
                         {% for row in table_data %}
                         <tr data-row-key="{{ row.area_key }}">
                             <td class="text-start align-middle">
-                                <strong>{{ row.area_display }}</strong>
-                                <p class="text-muted small mb-0">{{ row.description }}</p>
+                                <strong>{{ row.area_display }}</strong> <span class="text-muted small">{{ row.description }}</span>
                             </td>
                             <!-- Test 1 -->
                             <td><input type="number" name="test_1_{{ row.area_key }}" value="{{ row.test_1_score }}" {% if next_test_number != 1 %}disabled{% endif %} min="1" max="10" class="form-control form-control-sm score-input" required></td>
